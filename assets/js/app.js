@@ -32,3 +32,120 @@ let quiz = [
         img: 'assets/images/ben-accounting.gif'
     },
     ];
+
+function handleQandA() {
+    if (questionCount < quiz.length) {
+        qtemplate = `<div class='question-template'>
+    
+        <h2>${quiz[questionCount].question}</h2>
+    
+        <form>
+        <fieldset>
+        
+        <label class='answer-choices'>
+        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[0]}'>
+        <span>${quiz[questionCount].answers[0]}</span>
+        </label>
+    
+        <label class='answer-choices'>
+        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[1]}'>
+        <span>${quiz[questionCount].answers[1]}</span>
+        </label>
+    
+        <label class='answer-choices'>
+        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[2]}'>
+        <span>${quiz[questionCount].answers[2]}</span>
+        </label>
+    
+        <label class='answer-choices'>
+        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[3]}'>
+        <span>${quiz[questionCount].answers[3]}</span>
+        </label>
+    
+        <button type="submit" class="submit-btn">Submit</button>
+        
+        </fieldset>
+        </form>
+        </div>`;
+        
+        $('.q-display').append(qtemplate);
+        questionTimerRun();
+
+    } else {
+        dispResults();
+    }
+}
+
+function questionTimerRun() {
+    clearInterval(intervalId);
+    intervalId = setInterval(decrement, 1000);
+}
+     
+function decrement() {
+    qTimer--;
+    $('.timer').text('Time remaining: ' + qTimer);
+    if (qTimer === 0) {
+        clearInterval(intervalId);
+    }
+}
+    
+function timeToNextQ() {
+    clearInterval(intervalId);
+    intervalId = setInterval(decrementBtw, 1000);
+}
+    
+function decrementBtw() {
+    btwQTimer--;
+    if (btwQTimer === 0) {
+        console.log("on to the next");
+        nextQuestion();
+        handleQandA();
+    }
+}
+
+function handleResponse()  {
+    $('.submit-btn').on('click', function (event){
+        event.preventDefault();
+        let userAnswer = $('input:checked').val();
+        console.log(userAnswer);
+        let correctAnswer = `${quiz[questionCount].correctAnswer}`;
+        console.log(correctAnswer);
+        if (userAnswer === correctAnswer) {
+            $('.q-display').empty();
+            $('.timer').hide();
+            $('.response-feedback').text('You got it correct!');
+            score++;
+            timeToNextQ();
+            //show img that correlates with answer
+        } else {
+            $('.q-display').empty();
+            $('.timer').hide();
+            $('.response-feedback').text('You got it wrong. The answer was: ' + correctAnswer);
+            timeToNextQ();
+            //show img 
+        } 
+    });
+}
+
+function nextQuestion() {
+    questionCount++;
+    $('.timer').show(); 
+    $('.response-feedback').hide(); 
+}
+
+function dispResults() {
+    $('.q-display').empty();
+    $('.timer').hide();
+    $('.response-feedback').text('Congratulations! Your score was: ' + score);
+    //display end-of-game img 
+    $('.reset-btn').show();
+}
+
+function startQuiz() {
+    questionCount = 0;
+    $('.reset-btn').hide();
+    handleQandA();
+    handleResponse();
+}
+
+startQuiz();
