@@ -15,7 +15,7 @@ body {
 h1{
     font-size: 55px; 
     border: 2px dashed white; 
-    padding: 15px; 
+    padding: 20px; 
     width: auto;
 }
 
@@ -23,9 +23,10 @@ h1{
     background-color: green;
     border: 2px solid black; 
     padding: 20px; 
+    width: auto; 
 }
 
-.answer-choices, .ans-image, .response-feedback {
+.answer-choices, .ans-image, .end-img {
     display: block; 
 }
 
@@ -34,11 +35,11 @@ h1{
     font-size: 22px; 
 }
 
-.submit-btn {
+.submit-btn, .reset-btn {
     padding: 15px; 
 }
 
-.submit-btn:hover {
+.submit-btn:hover, .reset-btn:hover {
     background-color: grey;
 }
 

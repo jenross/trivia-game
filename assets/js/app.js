@@ -1,14 +1,14 @@
 //practiced making functions and organizing game in previous jquery sandbox repo 
-//after submitting ans for second q it is going back to first 
-//still need to insert if for time running out 
-//btwqtimer is taking away from qtimer when next q appears 
+
 let qTemplate = '';
 let intervalId;
-let intervalId2;
 let qTimer = 30;
-let questionCount = 0;
-let btwQTimer = 5; 
+let questionCount = 0;   
 let score = 0;
+let imgDisplay = $('<img>').addClass('ans-img');
+let qTimerRunning = false; 
+let betweenQTimerRunning = false; 
+let betweenQTimer = 5; 
 let quiz = [
     {   
         question: 'Who was one of the co-creators of the show?',
@@ -79,7 +79,10 @@ let quiz = [
     ];
 
 function handleQandA() {
-    if (questionCount < quiz.length) {
+    if (questionCount <= quiz.length) { 
+        resetQTimer(); 
+        questionTimerRun();
+
         qtemplate = `<div class='question-template'>
     
         <h2>${quiz[questionCount].question}</h2>
@@ -114,45 +117,82 @@ function handleQandA() {
         </div>`;
         
         $('.q-display').append(qtemplate);
+        resetQTimer(); 
         questionTimerRun();
-
+        handleSubmit(); 
     } else {
         dispResults();
     }
 }
 
+//Timer functions 
 function questionTimerRun() {
-    clearInterval(intervalId);
-    intervalId = setInterval(decrement, 1000);
+    if (!qTimerRunning) {
+        intervalId = setInterval(decrement, 1000);
+        qTimerRunning = true; 
+    }
 }
      
 function decrement() {
     qTimer--;
     $('.timer').text('Time remaining: ' + qTimer);
-    if (qTimer === 0) {
-        clearInterval(intervalId);
-    }
 }
-//bug not due to img 
-function timeToNextQ() {
-    let imgDisplay = $('<img>').addClass('ans-img');
-    imgDisplay.attr('src', quiz[questionCount].img);
-    $('.response-feedback').append(imgDisplay);
-    clearInterval(intervalId2);
-    intervalId2 = setInterval(decrementBtw, 1000);
+
+function stopQTimer() {
+    clearInterval(intervalId);
+    qTimerRunning = false;
 }
-    
-function decrementBtw() {
-    btwQTimer--;
-    if (btwQTimer === 0) {
-        console.log("on to the next");
-        nextQuestion();
-        handleQandA();
+
+function resetQTimer() {
+    qTimer = 30;
+    $('.timer').text('Time remaining: ' + qTimer);
+}
+
+function betweenQTimerRun() {
+    if (!betweenQTimerRunning) {
+        intervalId = setInterval(decrement2, 1000);
+        betweenQTimerRunning = true; 
+    } else if (betweenQTimer === 0) {
+        stopBetweenQTimer();
     }
 }
 
-function handleResponse()  {
+function decrement2() {
+    betweenQTimer--;
+}
+
+function stopBetweenQTimer() {
+    clearInterval(intervalId);
+    betweenQTimerRunning = false; 
+}
+
+function resetBetweenQTimer() {
+    betweenQTimer = 5; 
+}
+
+function correctResponse() {
+    // $('.q-display').empty();
+    // $('.timer').empty();
+    // $('.response-feedback').text('You got it correct!');
+    imgDisplay.attr('src', quiz[questionCount].img);
+    $('.img-container').append(imgDisplay);
+    score++;
+    betweenQTimerRun();
+}
+
+function incorrectResponse() {
+    // $('.q-display').empty();
+    // $('.timer').empty();
+    // $('.response-feedback').text('Wrong! The answer was: ' + correctAnswer);
+    imgDisplay.attr('src', quiz[questionCount].img);
+    $('.img-container').append(imgDisplay);
+    betweenQTimerRun();
+}
+
+function handleSubmit()  {
     $('.submit-btn').on('click', function (event){
+        stopQTimer();
+        resetBetweenQTimer(); 
         event.preventDefault();
         let userAnswer = $('input:checked').val();
         console.log(userAnswer);
@@ -160,32 +200,46 @@ function handleResponse()  {
         console.log(correctAnswer);
         if (userAnswer === correctAnswer) {
             $('.q-display').empty();
-            $('.timer').hide();
+            $('.timer').empty();
             $('.response-feedback').text('You got it correct!');
-            score++;
-            timeToNextQ();
+            correctResponse();
+            nextQuestion(); 
         } else {
             $('.q-display').empty();
-            $('.timer').hide();
-            $('.response-feedback').text('You got it wrong. The answer was: ' + correctAnswer);
-            timeToNextQ();
+            $('.timer').empty();
+            $('.response-feedback').text('Wrong! The answer was: ' + correctAnswer);
+            incorrectResponse(); 
+            nextQuestion(); 
         } 
     });
+    // if (qTimer === 0) {
+    //     $('.q-display').empty();
+    //     $('.timer').empty();
+    //     let userAnswer = $('input:checked').val();
+    //     console.log(userAnswer);
+    //     let correctAnswer = `${quiz[questionCount].correctAnswer}`;
+    //     console.log(correctAnswer);
+    //     $('.response-feedback').text('You ran out of time! The answer was: ' + correctAnswer);
+    //     handleQandA();
+    // }
+     
 }
 
 function nextQuestion() {
     questionCount++;
-    $('.timer').show(); 
-    $('.response-feedback').hide(); 
+    $('.response-feedback').empty(); 
+    $('.img-container').empty();
+    handleQandA(); 
 }
 
 function dispResults() {
     $('.q-display').empty();
-    $('.timer').hide();
+    $('.timer').empty();
+    $('.img-container').empty();
     $('.response-feedback').text('Congratulations! Your score was: ' + score);
     let endImg = $('<img>').addClass('end-img');
     endImg.attr('src', 'assets/images/tom-end.gif');
-    $('.response-feedback').append(endImg);
+    $('.img-container').append(endImg);
     $('.reset-btn').show();
 }
 
@@ -193,7 +247,6 @@ function startQuiz() {
     questionCount = 0;
     $('.reset-btn').hide();
     handleQandA();
-    handleResponse();
 }
 
 startQuiz();
