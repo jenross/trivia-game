@@ -1,10 +1,13 @@
 //practiced making functions and organizing game in previous jquery sandbox repo 
 //after submitting ans for second q it is going back to first 
+//still need to insert if for time running out 
+//btwqtimer is taking away from qtimer when next q appears 
 let qTemplate = '';
 let intervalId;
+let intervalId2;
 let qTimer = 30;
 let questionCount = 0;
-let btwQTimer = 6; 
+let btwQTimer = 5; 
 let score = 0;
 let quiz = [
     {   
@@ -84,27 +87,27 @@ function handleQandA() {
         <form class='mt-3'>
         <fieldset>
         
-        <label class='answer-choices mt-2'>
-        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[0]}'>
+        <label class='answer-choices mt-3'>
+        <input class= 'mr-2' type='radio' name='answer-option' value='${quiz[questionCount].answers[0]}'>
         <span>${quiz[questionCount].answers[0]}</span>
         </label>
     
-        <label class='answer-choices mt-2'>
-        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[1]}'>
+        <label class='answer-choices mt-3'>
+        <input class= 'mr-2' type='radio' name='answer-option' value='${quiz[questionCount].answers[1]}'>
         <span>${quiz[questionCount].answers[1]}</span>
         </label>
-    
-        <label class='answer-choices mt-2'>
-        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[2]}'>
+     
+        <label class='answer-choices mt-3'>
+        <input class= 'mr-2' type='radio' name='answer-option' value='${quiz[questionCount].answers[2]}'>
         <span>${quiz[questionCount].answers[2]}</span>
         </label>
     
-        <label class='answer-choices mt-2'>
-        <input type='radio' name='answer-option' value='${quiz[questionCount].answers[3]}'>
+        <label class='answer-choices mt-3'>
+        <input class= 'mr-2' type='radio' name='answer-option' value='${quiz[questionCount].answers[3]}'>
         <span>${quiz[questionCount].answers[3]}</span>
         </label>
     
-        <button type='submit' class='submit-btn mt-3'>Submit</button>
+        <button type='submit' class='submit-btn mt-4'>Submit</button>
         
         </fieldset>
         </form>
@@ -135,8 +138,8 @@ function timeToNextQ() {
     let imgDisplay = $('<img>').addClass('ans-img');
     imgDisplay.attr('src', quiz[questionCount].img);
     $('.response-feedback').append(imgDisplay);
-    clearInterval(intervalId);
-    intervalId = setInterval(decrementBtw, 1000);
+    clearInterval(intervalId2);
+    intervalId2 = setInterval(decrementBtw, 1000);
 }
     
 function decrementBtw() {

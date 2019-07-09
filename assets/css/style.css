@@ -2,6 +2,52 @@
     box-sizing: border-box;
 }
 
+body { 
+    font-family: 'Anton', sans-serif; 
+    color: white;  
+    background: url('../images/parks-rec-bkgrnd.jpeg') no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1{
+    font-size: 55px; 
+    border: 2px dashed white; 
+    padding: 15px; 
+    width: auto;
+}
+
+.container {
+    background-color: green;
+    border: 2px solid black; 
+    padding: 20px; 
+}
+
 .answer-choices, .ans-image, .response-feedback {
     display: block; 
+}
+
+.footer, .response-feedback, .q-display, .time-remaining, .submit-btn {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px; 
+}
+
+.submit-btn {
+    padding: 15px; 
+}
+
+.submit-btn:hover {
+    background-color: grey;
+}
+
+.footer {
+    width: 100%; 
+    font-size: 15px!important; 
+    background-color: green; 
+}
+
+.footer-text {
+    color: white; 
 }
