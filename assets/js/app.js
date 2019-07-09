@@ -1,7 +1,9 @@
 //practiced making functions and organizing game in previous jquery sandbox repo 
-
+//results not displaying between questions after clicking submit
+//if user stays on a question, the countdown keeps going 
 let qTemplate = '';
 let intervalId;
+let intervalId2; 
 let qTimer = 30;
 let questionCount = 0;   
 let score = 0;
@@ -79,7 +81,7 @@ let quiz = [
     ];
 
 function handleQandA() {
-    if (questionCount <= quiz.length) { 
+    if (questionCount < quiz.length) { 
         resetQTimer(); 
         questionTimerRun();
 
@@ -117,8 +119,6 @@ function handleQandA() {
         </div>`;
         
         $('.q-display').append(qtemplate);
-        resetQTimer(); 
-        questionTimerRun();
         handleSubmit(); 
     } else {
         dispResults();
@@ -150,7 +150,7 @@ function resetQTimer() {
 
 function betweenQTimerRun() {
     if (!betweenQTimerRunning) {
-        intervalId = setInterval(decrement2, 1000);
+        intervalId2 = setInterval(decrement2, 1000);
         betweenQTimerRunning = true; 
     } else if (betweenQTimer === 0) {
         stopBetweenQTimer();
@@ -162,7 +162,7 @@ function decrement2() {
 }
 
 function stopBetweenQTimer() {
-    clearInterval(intervalId);
+    clearInterval(intervalId2);
     betweenQTimerRunning = false; 
 }
 
@@ -170,30 +170,11 @@ function resetBetweenQTimer() {
     betweenQTimer = 5; 
 }
 
-function correctResponse() {
-    // $('.q-display').empty();
-    // $('.timer').empty();
-    // $('.response-feedback').text('You got it correct!');
-    imgDisplay.attr('src', quiz[questionCount].img);
-    $('.img-container').append(imgDisplay);
-    score++;
-    betweenQTimerRun();
-}
-
-function incorrectResponse() {
-    // $('.q-display').empty();
-    // $('.timer').empty();
-    // $('.response-feedback').text('Wrong! The answer was: ' + correctAnswer);
-    imgDisplay.attr('src', quiz[questionCount].img);
-    $('.img-container').append(imgDisplay);
-    betweenQTimerRun();
-}
-
 function handleSubmit()  {
-    $('.submit-btn').on('click', function (event){
-        stopQTimer();
-        resetBetweenQTimer(); 
+    $('.submit-btn').on('click', function (event){ 
         event.preventDefault();
+        stopQTimer();
+        resetBetweenQTimer();
         let userAnswer = $('input:checked').val();
         console.log(userAnswer);
         let correctAnswer = `${quiz[questionCount].correctAnswer}`;
@@ -202,27 +183,21 @@ function handleSubmit()  {
             $('.q-display').empty();
             $('.timer').empty();
             $('.response-feedback').text('You got it correct!');
-            correctResponse();
+            imgDisplay.attr('src', quiz[questionCount].img);
+            $('.img-container').append(imgDisplay);
+            score++;
+            betweenQTimerRun();
             nextQuestion(); 
         } else {
             $('.q-display').empty();
             $('.timer').empty();
             $('.response-feedback').text('Wrong! The answer was: ' + correctAnswer);
-            incorrectResponse(); 
+            imgDisplay.attr('src', quiz[questionCount].img);
+            $('.img-container').append(imgDisplay);
+            betweenQTimerRun();
             nextQuestion(); 
         } 
     });
-    // if (qTimer === 0) {
-    //     $('.q-display').empty();
-    //     $('.timer').empty();
-    //     let userAnswer = $('input:checked').val();
-    //     console.log(userAnswer);
-    //     let correctAnswer = `${quiz[questionCount].correctAnswer}`;
-    //     console.log(correctAnswer);
-    //     $('.response-feedback').text('You ran out of time! The answer was: ' + correctAnswer);
-    //     handleQandA();
-    // }
-     
 }
 
 function nextQuestion() {
@@ -246,6 +221,8 @@ function dispResults() {
 function startQuiz() {
     questionCount = 0;
     $('.reset-btn').hide();
+    $('.img-container').empty(); 
+    $('.response-feedback').empty(); 
     handleQandA();
 }
 
