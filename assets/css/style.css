@@ -2,3 +2,6 @@
     box-sizing: border-box;
 }
 
+.answer-choices, .ans-image, .response-feedback {
+    display: block; 
+}

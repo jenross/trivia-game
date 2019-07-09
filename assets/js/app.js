@@ -1,10 +1,10 @@
 //practiced making functions and organizing game in previous jquery sandbox repo 
-
+//after submitting ans for second q it is going back to first 
 let qTemplate = '';
 let intervalId;
 let qTimer = 30;
 let questionCount = 0;
-let btwQTimer = 5;//maybe too long? 
+let btwQTimer = 6; 
 let score = 0;
 let quiz = [
     {   
@@ -31,6 +31,48 @@ let quiz = [
         correctAnswer: '3',
         img: 'assets/images/ben-accounting.gif'
     },
+    {
+        question: 'Whose jersey was Andy wearing when he and April got married?',
+        answers: ['Reggie Wayne', 'Brett Favre', 'Tom Brady', 'Peyton Manning'],
+        correctAnswer: 'Reggie Wayne',
+        img: 'assets/images/april-andy-wedding.gif'
+    },
+    {
+        question: 'Who created “The Cones of Dunshire”?', 
+        answers: ['Leslie', 'Ben', 'Donna', 'April'],
+        correctAnswer: 'Ben',
+        img: 'assets/images/ben-cones.gif'
+    },
+    {
+        question: 'Which celebrity is Donna Meagle\'\s cousin?',
+        answers: ['Ginuwine', '50 Cent', 'Drake', 'Future'],
+        correctAnswer: 'Ginuwine',
+        img: 'assets/images/ginuwine.gif'
+    },
+    {
+        question: 'What is the name of the song Andy wrote for Lil Sebastian?',
+        answers: ['10,000 Tiny Dancers', '500 Rocket Men', 'Bennie & the 6,000 Jets', '5,000 Candles in the Wind'],
+        correctAnswer: '5,000 Candles in the Wind',
+        img: 'assets/images/lil-sebastian.png'
+    },
+    {
+        question: 'What is Jerry Gergich’s real name?',
+        answers: ['Larry', 'Harry', 'Garry', 'Terry'],
+        correctAnswer: 'Garry',
+        img: 'assets/images/garry.gif'
+    },
+    {
+        question: 'What is Tom\'\s nickname for forks?',
+        answers: ['Dinglehopper', 'Quad-scraper', 'Food rakes', 'Mini-pitchfork'],
+        correctAnswer: 'Food rakes',
+        img: 'assets/images/food-rakes.gif'
+    },
+    {
+        question: 'What drink causes Leslie and Ann to have their first major fight?',
+        answers: ['Snake juice', 'Turtle tonic', 'Alligator ale', 'Parrot punch'],
+        correctAnswer: 'Snake juice',
+        img: 'assets/images/snakejuice.gif'
+    },
     ];
 
 function handleQandA() {
@@ -39,30 +81,30 @@ function handleQandA() {
     
         <h2>${quiz[questionCount].question}</h2>
     
-        <form>
+        <form class='mt-3'>
         <fieldset>
         
-        <label class='answer-choices'>
+        <label class='answer-choices mt-2'>
         <input type='radio' name='answer-option' value='${quiz[questionCount].answers[0]}'>
         <span>${quiz[questionCount].answers[0]}</span>
         </label>
     
-        <label class='answer-choices'>
+        <label class='answer-choices mt-2'>
         <input type='radio' name='answer-option' value='${quiz[questionCount].answers[1]}'>
         <span>${quiz[questionCount].answers[1]}</span>
         </label>
     
-        <label class='answer-choices'>
+        <label class='answer-choices mt-2'>
         <input type='radio' name='answer-option' value='${quiz[questionCount].answers[2]}'>
         <span>${quiz[questionCount].answers[2]}</span>
         </label>
     
-        <label class='answer-choices'>
+        <label class='answer-choices mt-2'>
         <input type='radio' name='answer-option' value='${quiz[questionCount].answers[3]}'>
         <span>${quiz[questionCount].answers[3]}</span>
         </label>
     
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type='submit' class='submit-btn mt-3'>Submit</button>
         
         </fieldset>
         </form>
@@ -88,8 +130,11 @@ function decrement() {
         clearInterval(intervalId);
     }
 }
-    
+//bug not due to img 
 function timeToNextQ() {
+    let imgDisplay = $('<img>').addClass('ans-img');
+    imgDisplay.attr('src', quiz[questionCount].img);
+    $('.response-feedback').append(imgDisplay);
     clearInterval(intervalId);
     intervalId = setInterval(decrementBtw, 1000);
 }
@@ -116,13 +161,11 @@ function handleResponse()  {
             $('.response-feedback').text('You got it correct!');
             score++;
             timeToNextQ();
-            //show img that correlates with answer
         } else {
             $('.q-display').empty();
             $('.timer').hide();
             $('.response-feedback').text('You got it wrong. The answer was: ' + correctAnswer);
             timeToNextQ();
-            //show img 
         } 
     });
 }
@@ -137,7 +180,9 @@ function dispResults() {
     $('.q-display').empty();
     $('.timer').hide();
     $('.response-feedback').text('Congratulations! Your score was: ' + score);
-    //display end-of-game img 
+    let endImg = $('<img>').addClass('end-img');
+    endImg.attr('src', 'assets/images/tom-end.gif');
+    $('.response-feedback').append(endImg);
     $('.reset-btn').show();
 }
 
@@ -149,3 +194,7 @@ function startQuiz() {
 }
 
 startQuiz();
+
+$('.reset-btn').on("click", function(){
+    startQuiz();
+});
