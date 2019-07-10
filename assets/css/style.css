@@ -24,23 +24,30 @@ h1{
     border: 2px solid grey; 
     padding: 20px; 
     width: auto; 
+    height: auto; 
 }
 
 .answer-choices, .ans-image {
     display: block; 
 }
 
-.footer, .response-feedback, .q-display, .time-remaining, .submit-btn, .reset-btn {
+.footer, .response-feedback, .q-display, .time-remaining, .submit-btn, .reset-btn, .btn, .instructions{
     font-family: 'Roboto', sans-serif;
     font-size: 22px; 
 }
 
-.submit-btn, .reset-btn {
+.submit-btn, .reset-btn, .btn {
     padding: 15px; 
 }
 
-.submit-btn:hover, .reset-btn:hover {
+.submit-btn:hover, .reset-btn:hover, .btn:hover {
     background-color: grey;
+}
+
+.btn {
+    width: 110px; 
+    height: 60px; 
+    background-color: lightgrey;
 }
 
 .footer {

@@ -1,6 +1,7 @@
 //practiced making functions and organizing game in previous jquery sandbox repo  
 //would like to still add different feedback at the end for different score ranges
 //initial message and button to begin the game(could just make another html file)
+//display for game status (question number, correct/incorrect) throughout game 
 
 let intervalId;
 let qTimer = 20;
@@ -23,7 +24,7 @@ let quiz = [
         img: 'assets/images/leslie-ann.gif'
     }, 
     {
-        question: 'How did Jean Ralphio say he made money the old-fashioned way?(sing it)',
+        question: 'How did Jean Ralphio say he made money the old-fashioned way? (sing it)',
         answers: ['I married a woman with a truuussst fuunnnd', 'I got run over by a Lexxuuusss', 'I sued my doctor for medical malprraaactice', 'I spilled hot coffee in my laaappp'],
         correctAnswer: 'I got run over by a Lexxuuusss',
         img: 'assets/images/jean-ralphio-lexus.jpeg'
