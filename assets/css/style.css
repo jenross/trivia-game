@@ -21,16 +21,16 @@ h1{
 
 .container {
     background-color: green;
-    border: 2px solid black; 
+    border: 2px solid grey; 
     padding: 20px; 
     width: auto; 
 }
 
-.answer-choices, .ans-image, .end-img {
+.answer-choices, .ans-image {
     display: block; 
 }
 
-.footer, .response-feedback, .q-display, .time-remaining, .submit-btn {
+.footer, .response-feedback, .q-display, .time-remaining, .submit-btn, .reset-btn {
     font-family: 'Roboto', sans-serif;
     font-size: 22px; 
 }
@@ -47,8 +47,14 @@ h1{
     width: 100%; 
     font-size: 15px!important; 
     background-color: green; 
+    border-top: 1px solid grey;
 }
 
 .footer-text {
     color: white; 
+}
+
+.end-img {
+    display: inline-block; 
+    margin-top: 10px; 
 }
