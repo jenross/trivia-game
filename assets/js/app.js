@@ -1,6 +1,5 @@
 //practiced making functions and organizing game in previous jquery sandbox repo  
 //would like to still add different feedback at the end for different score ranges
-//initial message and button to begin the game(could just make another html file)
 //display for game status (question number, correct/incorrect) throughout game 
 
 let intervalId;
