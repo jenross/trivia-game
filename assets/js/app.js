@@ -6,7 +6,7 @@ let intervalId;
 let qTimer = 20;
 let questionCount = 0;   
 let score = 0;
-let imgDisplay = $('<img>').addClass('ans-img');
+let imgDisplay = $('<img>').addClass('ans-img mx-auto');
 let qTimerRunning = false; 
 let correctAnswer = '';
 let quiz = [
@@ -116,7 +116,7 @@ function handleQandA() {
         <span>${quiz[questionCount].answers[3]}</span>
         </label>
     
-        <button type='submit' class='submit-btn mt-4'>Submit</button>
+        <button type='submit' class='submit-btn btn btn btn-light mt-4'>Submit</button>
         
         </fieldset>
         </form>
